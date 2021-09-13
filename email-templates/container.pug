@@ -1,0 +1,15 @@
+doctype html
+html
+    head
+        style
+            include style.css
+    body.content
+        div
+            h1
+                | Hello #{name}
+        div
+            block content
+        div
+            | Best regards
+            br
+            a(href=frontEndURL) Visit our website
