@@ -1,4 +1,9 @@
 module.exports = {
+    AWS_S3_NAME: process.env.AWS_S3_NAME || '',
+    AWS_S3_REGION: process.env.AWS_S3_REGION || '',
+    AWS_S3_ACCESS_KEY: process.env.AWS_S3_ACCESS_KEY || '',
+    AWS_S3_SECRET_KEY: process.env.AWS_S3_SECRET_KEY || '',
+
     PORT: process.env.PORT || 5000,
     DATA_BASE_PORT: process.env.DB_CONNECTION_URL || 'mongodb://localhost:27017/apr-2021',
 
@@ -11,5 +16,6 @@ module.exports = {
     NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || 'test@example.com',
     NO_REPLY_EMAIL_PASSWORD: process.env.NO_REPLY_EMAIL_PASSWORD || 'test@example.com',
     SEND_TO_EMAIL: 'aleksandr.pravo@gmail.com',
-    SOME_URL: 'https://www.youtube.com'
+    SOME_URL: 'https://www.youtube.com',
+
 };

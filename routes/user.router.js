@@ -19,9 +19,10 @@ const {
         checkUserRole,
         getItemByDynamicParams,
         throwErrorWhenExist,
-        checkUserisAdmin
+        checkUserisAdmin,
     },
-    loginMiddleware: { validateAccessToken }
+    loginMiddleware: { validateAccessToken },
+    fileMiddleware: { checkAvatar }
 } = require('../middlewares');
 
 router.get('/',
@@ -29,6 +30,7 @@ router.get('/',
 
 router.post('/',
     validateSomeFilds(createUserValidator),
+    checkAvatar,
     getItemByDynamicParams(User, EMAIL),
     throwErrorWhenExist(CONFLICTED_EMAIL),
     userController.createUser);
@@ -47,6 +49,7 @@ router.delete('/:user_id',
 
 router.put('/:user_id',
     validateSomeFilds(updateUserValidator),
+    checkAvatar,
     validateAccessToken,
     getItemByDynamicParams(User, USER_ID, PARAMS, ID),
     throwErrorWhenExist(),

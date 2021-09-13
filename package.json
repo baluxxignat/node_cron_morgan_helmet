@@ -11,12 +11,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.987.0",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
     "dotenv": "9.0.2",
     "email-templates": "^8.0.8",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "express-handlebars": "^5.3.3",
     "express-session": "^1.17.2",
     "joi": "^17.4.2",
@@ -25,11 +27,14 @@
     "nodemailer": "^6.6.3",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/nodemailer": "^6.4.4",
+    "@types/aws-sdk": "^2.7.0",
     "@types/email-templates": "^8.0.4",
+    "@types/nodemailer": "^6.4.4",
+    "@types/s3-uploader": "^0.0.29",
     "eslint": "7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.24.1",

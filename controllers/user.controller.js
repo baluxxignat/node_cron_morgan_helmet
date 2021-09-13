@@ -3,7 +3,8 @@ const { user_normalizator: { userToNormalize } } = require('../utils');
 const {
     functionService,
     passwordService,
-    emailService
+    emailService,
+    s3Service
 } = require('../services');
 
 const {
@@ -47,7 +48,14 @@ module.exports = {
 
             const hashedPassword = await passwordService.hashPassword(password);
 
-            const createdUser = await functionService.createItem(User, { ...req.body, password: hashedPassword });
+            let createdUser = await functionService.createItem(User, { ...req.body, password: hashedPassword });
+
+            if (req.files && req.files.avatar) {
+                const sendedData = await s3Service.uploadFiles(req.files.avatar, 'users', createdUser._id);
+                createdUser = await User.findByIdAndUpdate(createdUser._id,
+                    { avatar: sendedData.Location },
+                    { new: true });
+            }
 
             const userNormalized = userToNormalize(createdUser);
 

@@ -1,5 +1,6 @@
 module.exports = {
     ALREADY_EXIST: ' is already exist',
+    TOO_BIG: ' is too big',
     M_NOT_FOUND: ' is Not Found',
     FIELDS_EMPTY: 'fields are empty',
     DELETED: ' was deleted',
@@ -10,5 +11,6 @@ module.exports = {
     TOKEN_TYPE: 'wrong token type',
     LOG_OUT: 'logout successful',
     TEMPLATE_NAME_ERROR: 'wrong template name',
-    DONE: 'done'
+    DONE: 'done',
+    WRONG_FORMAT: 'Wrong file format'
 };
