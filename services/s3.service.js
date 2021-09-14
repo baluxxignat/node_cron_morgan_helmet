@@ -31,8 +31,16 @@ module.exports = {
                 Key: fileName,
                 ContentType: mimetype
 
-            })
-            .promise();
+            }).promise();
+    },
+
+    deleteFiles: (location) => {
+        const Key = new URL(location).pathname.substr(1);
+
+        return bucket.deleteObject({
+            Bucket: AWS_S3_NAME,
+            Key
+        }).promise();
     }
 };
 

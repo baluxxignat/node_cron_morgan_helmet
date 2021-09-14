@@ -42,36 +42,14 @@ module.exports = {
         }
     },
 
-    createUser: async (req, res, next) => {
-        try {
-            const { name, password } = req.body;
-
-            const hashedPassword = await passwordService.hashPassword(password);
-
-            let createdUser = await functionService.createItem(User, { ...req.body, password: hashedPassword });
-
-            if (req.files && req.files.avatar) {
-                const sendedData = await s3Service.uploadFiles(req.files.avatar, 'users', createdUser._id);
-                createdUser = await User.findByIdAndUpdate(createdUser._id,
-                    { avatar: sendedData.Location },
-                    { new: true });
-            }
-
-            const userNormalized = userToNormalize(createdUser);
-
-            await emailService.sendMail(userNormalized.email, ACCOUNT_CREATED, { name });
-
-            res.status(CREATED).json(userNormalized);
-        } catch (e) {
-            next(e);
-        }
-    },
-
     deleteUser: async (req, res, next) => {
         try {
             const { user_id } = req.params;
+            const { user: { name, email, avatar }, userIsLogined } = req;
 
-            const { user: { name, email }, userIsLogined } = req;
+            if (avatar) {
+                await s3Service.deleteFiles(avatar);
+            }
 
             await functionService.deleteCurrentItem(User, user_id);
 
@@ -88,12 +66,56 @@ module.exports = {
         }
     },
 
+    createUser: async (req, res, next) => {
+        try {
+            const { name, password } = req.body;
+
+            const hashedPassword = await passwordService.hashPassword(password);
+
+            let createdUser = await functionService.createItem(User, { ...req.body, password: hashedPassword });
+
+            if (req.files && req.files.avatar) {
+                const sendedData = await s3Service.uploadFiles(req.files.avatar, 'users', createdUser._id);
+
+                createdUser = await User.findByIdAndUpdate(createdUser._id,
+                    { avatar: sendedData.Location },
+                    { new: true });
+            }
+
+            const userNormalized = userToNormalize(createdUser);
+
+            await emailService.sendMail(userNormalized.email, ACCOUNT_CREATED, { name });
+
+            res.status(CREATED).json(userNormalized);
+        } catch (e) {
+            next(e);
+        }
+    },
+
     updateUser: async (req, res, next) => {
         try {
             const { user_id } = req.params;
+            let { user } = req;
             const { name, email } = req.user;
 
-            const updatedUser = await functionService.updateItem(User, user_id, req.body);
+            if (req.files && req.files.avatar) {
+                const { avatar } = req.user;
+
+                if (avatar) {
+                    await s3Service.deleteFiles(avatar);
+                }
+
+                const sendedData = await s3Service.uploadFiles(req.files.avatar, 'users', user_id);
+                user = await User.findByIdAndUpdate(
+                    user_id,
+                    { ...req.body, avatar: sendedData.Location },
+                    { new: true }
+                );
+            } else {
+                user = await functionService.updateItem(User, user_id, req.body);
+            }
+
+            const updatedUser = userToNormalize(user);
 
             await emailService.sendMail(email, ACCOUNT_UPDATED, { name });
 
