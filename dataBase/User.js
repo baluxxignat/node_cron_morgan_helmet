@@ -31,7 +31,12 @@ const userShema = new Schema({
 
     avatar: {
         type: String
+    },
+
+    login_date: {
+        type: String
     }
+
 }, { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } });
 
 module.exports = model(USER, userShema);

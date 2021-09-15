@@ -6,5 +6,6 @@ module.exports = {
     LOGINATION_SUCCESSFUL: 'logination_successful',
     FORGOT_PASSWORD: 'forgotPassword',
     RESET_PASSWORD: 'resetPassword',
-    ADMIN_ACCOUNT_CREATED: 'adminAccountWasCreated'
+    ADMIN_ACCOUNT_CREATED: 'adminAccountWasCreated',
+    WE_MISS_YOU: 'we_miss_you'
 };

@@ -6,6 +6,7 @@ module.exports = {
 
     deleteCurrentItem: (BD, id) => BD.deleteOne({ _id: id }),
 
-    updateItem: (BD, id, info) => BD.findByIdAndUpdate(id, info)
+    updateItem: (BD, id, info) => BD.findByIdAndUpdate(id, info),
 
+    findByItem: (BD, filterBy, item) => BD.find(filterBy).populate(item)
 };

@@ -16,38 +16,51 @@ const {
         validateAdminToken
     }
 } = require('../middlewares');
+
 const { functionVariables: { EMAIL } } = require('../config');
 const { User } = require('../dataBase');
 const { FORGOT_PASS, ADMIN_TOKEN } = require('../config/action-tokens.enum');
 
-router.post('/',
-    preLoginUser,
-    getItemByDynamicParams(User, EMAIL),
-    throwErrorWhenExist(),
-    loginController.loginUser);
+router.route('/')
+    .post(
+        preLoginUser,
+        getItemByDynamicParams(User, EMAIL),
+        throwErrorWhenExist(),
+        loginController.loginUser
+    );
 
-router.post('/logout',
-    validateAccessToken,
-    loginController.logOutUser);
+router.route('/logout')
+    .post(
+        validateAccessToken,
+        loginController.logOutUser
+    );
 
-router.post('/refresh',
-    validateRefreshToken,
-    loginController.refreshToken);
+router.route('/refresh')
+    .post(
+        validateRefreshToken,
+        loginController.refreshToken
+    );
 
-router.post('/password/forgot',
-    validateEmailWhenForgot,
-    getItemByDynamicParams(User, EMAIL),
-    throwErrorWhenExist(),
-    passwordController.forgotPassword);
+router.route('/password/forgot')
+    .post(
+        validateEmailWhenForgot,
+        getItemByDynamicParams(User, EMAIL),
+        throwErrorWhenExist(),
+        passwordController.forgotPassword
+    );
 
-router.post('/password/reset',
-    validateNewPassword,
-    validateActionToken(FORGOT_PASS),
-    passwordController.resetPassword);
+router.route('/password/reset')
+    .post(
+        validateNewPassword,
+        validateActionToken(FORGOT_PASS),
+        passwordController.resetPassword
+    );
 
-router.post('/admin/setpassword',
-    validateNewPassword,
-    validateAdminToken(ADMIN_TOKEN),
-    passwordController.resetPassword);
+router.route('/admin/setpassword')
+    .post(
+        validateNewPassword,
+        validateAdminToken(ADMIN_TOKEN),
+        passwordController.resetPassword
+    );
 
 module.exports = router;

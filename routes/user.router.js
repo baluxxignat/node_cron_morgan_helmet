@@ -1,18 +1,5 @@
 const router = require('express').Router();
 
-const { User } = require('../dataBase');
-const {
-    functionVariables: {
-        ADMIN,
-        USER_ID,
-        PARAMS,
-        ID,
-        EMAIL,
-        CONFLICTED_EMAIL,
-    }
-} = require('../config');
-const { userController, adminController } = require('../controllers');
-const { userValidator: { createUserValidator, updateUserValidator, createOnlyAdmins } } = require('../validators');
 const {
     userMiddleware: {
         validateSomeFilds,
@@ -25,43 +12,64 @@ const {
     fileMiddleware: { checkAvatar }
 } = require('../middlewares');
 
-router.get('/',
-    userController.getAllUsers);
+const {
+    functionVariables: {
+        ADMIN,
+        USER_ID,
+        PARAMS,
+        ID,
+        EMAIL,
+        CONFLICTED_EMAIL,
+    }
+} = require('../config');
 
-router.post('/',
-    validateSomeFilds(createUserValidator),
-    checkAvatar,
-    getItemByDynamicParams(User, EMAIL),
-    throwErrorWhenExist(CONFLICTED_EMAIL),
-    userController.createUser);
+const { userController, adminController } = require('../controllers');
+const { userValidator: { createUserValidator, updateUserValidator, createOnlyAdmins } } = require('../validators');
+const { User } = require('../dataBase');
 
-router.get('/:user_id',
-    getItemByDynamicParams(User, USER_ID, PARAMS, ID),
-    throwErrorWhenExist(),
-    userController.getSingleUser);
+router.route('/')
+    .get(
+        userController.getAllUsers
+    )
+    .post(
+        validateSomeFilds(createUserValidator),
+        checkAvatar,
+        getItemByDynamicParams(User, EMAIL),
+        throwErrorWhenExist(CONFLICTED_EMAIL),
+        userController.createUser
+    );
 
-router.delete('/:user_id',
-    validateAccessToken,
-    getItemByDynamicParams(User, USER_ID, PARAMS, ID),
-    throwErrorWhenExist(),
-    checkUserRole([ADMIN]),
-    userController.deleteUser);
+router.route('/:user_id')
+    .get(
+        getItemByDynamicParams(User, USER_ID, PARAMS, ID),
+        throwErrorWhenExist(),
+        userController.getSingleUser
+    )
+    .put(
+        validateSomeFilds(updateUserValidator),
+        checkAvatar,
+        validateAccessToken,
+        getItemByDynamicParams(User, USER_ID, PARAMS, ID),
+        throwErrorWhenExist(),
+        checkUserRole([ADMIN]),
+        userController.updateUser
+    )
+    .delete(
+        validateAccessToken,
+        getItemByDynamicParams(User, USER_ID, PARAMS, ID),
+        throwErrorWhenExist(),
+        checkUserRole([ADMIN]),
+        userController.deleteUser
+    );
 
-router.put('/:user_id',
-    validateSomeFilds(updateUserValidator),
-    checkAvatar,
-    validateAccessToken,
-    getItemByDynamicParams(User, USER_ID, PARAMS, ID),
-    throwErrorWhenExist(),
-    checkUserRole([ADMIN]),
-    userController.updateUser);
-
-router.post('/admin',
-    validateSomeFilds(createOnlyAdmins),
-    validateAccessToken,
-    checkUserisAdmin,
-    getItemByDynamicParams(User, EMAIL),
-    throwErrorWhenExist(CONFLICTED_EMAIL),
-    adminController.createnewAdmin);
+router.route('/admin')
+    .post(
+        validateSomeFilds(createOnlyAdmins),
+        validateAccessToken,
+        checkUserisAdmin,
+        getItemByDynamicParams(User, EMAIL),
+        throwErrorWhenExist(CONFLICTED_EMAIL),
+        adminController.createnewAdmin
+    );
 
 module.exports = router;

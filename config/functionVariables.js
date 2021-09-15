@@ -14,5 +14,6 @@ module.exports = {
     V: '__v',
     ROLE: 'role',
     ERROR: 'error',
-    REFRESH: 'refresh'
+    REFRESH: 'refresh',
+    ADMIN_NAME: 'adminname'
 };

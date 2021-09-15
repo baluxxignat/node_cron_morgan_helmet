@@ -12,5 +12,6 @@ module.exports = {
     LOG_OUT: 'logout successful',
     TEMPLATE_NAME_ERROR: 'wrong template name',
     DONE: 'done',
-    WRONG_FORMAT: 'Wrong file format'
+    WRONG_FORMAT: 'Wrong file format',
+    CORS_FORBIDEN: 'CORS not allowed'
 };

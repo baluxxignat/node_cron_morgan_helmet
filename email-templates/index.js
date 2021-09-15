@@ -39,5 +39,10 @@ module.exports = {
     [emailActionEnum.ADMIN_ACCOUNT_CREATED]: {
         templateName: 'adminAccountWasCreated',
         subject: 'admin_account_created'
-    }
+    },
+
+    [emailActionEnum.WE_MISS_YOU]: {
+        templateName: 'we_miss_you',
+        subject: 'we_miss_you'
+    },
 };

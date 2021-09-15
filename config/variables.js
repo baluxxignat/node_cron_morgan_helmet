@@ -17,5 +17,9 @@ module.exports = {
     NO_REPLY_EMAIL_PASSWORD: process.env.NO_REPLY_EMAIL_PASSWORD || 'test@example.com',
     SEND_TO_EMAIL: 'aleksandr.pravo@gmail.com',
     SOME_URL: 'https://www.youtube.com',
+    email_admin: 'admin@gmail.com',
+    password_admin: 'Abc12345!',
+
+    WHITE_LIST_ORIGINS: process.env.WHITE_LIST_ORIGINS || 'http://localhost:3000'
 
 };
