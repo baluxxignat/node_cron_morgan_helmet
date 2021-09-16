@@ -10,10 +10,15 @@ module.exports = {
     PASS: 'password',
     PARAMS: 'params',
     USER: 'user',
+    USERS: 'users',
     USER_ID: 'user_id',
     V: '__v',
     ROLE: 'role',
     ERROR: 'error',
     REFRESH: 'refresh',
-    ADMIN_NAME: 'adminname'
+    ADMIN_NAME: 'adminname',
+    MONTH: 'month',
+    DAY: 'day',
+    NO_REPLY: 'No reply',
+    GMAIL: 'gmail'
 };

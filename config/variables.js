@@ -19,6 +19,7 @@ module.exports = {
     SOME_URL: 'https://www.youtube.com',
     email_admin: 'admin@gmail.com',
     password_admin: 'Abc12345!',
+    PASS_PASS: '12345',
 
     WHITE_LIST_ORIGINS: process.env.WHITE_LIST_ORIGINS || 'http://localhost:3000'
 

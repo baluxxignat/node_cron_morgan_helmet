@@ -2,7 +2,10 @@ const EmailTemplates = require('email-templates');
 const nodemailer = require('nodemailer');
 const path = require('path');
 
-const { variables: { NO_REPLY_EMAIL, NO_REPLY_EMAIL_PASSWORD, SOME_URL } } = require('../config');
+const {
+    variables: { NO_REPLY_EMAIL, NO_REPLY_EMAIL_PASSWORD, SOME_URL },
+    functionVariables: { NO_REPLY, GMAIL }
+} = require('../config');
 const allTemplates = require('../email-templates');
 const { ErrorHandler } = require('../errors');
 const { messages: { TEMPLATE_NAME_ERROR }, statusCodes: { INTERNAL_SERVER_ERROR } } = require('../config');
@@ -14,7 +17,7 @@ const templateParser = new EmailTemplates({
 });
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: GMAIL,
     auth: {
         user: NO_REPLY_EMAIL,
         pass: NO_REPLY_EMAIL_PASSWORD
@@ -32,7 +35,7 @@ const sendMail = async (userMail, emailAction, context = {}) => {
     const html = await templateParser.render(templateName, context);
 
     return transporter.sendMail({
-        from: 'No reply',
+        from: NO_REPLY,
         to: userMail,
         subject,
         html

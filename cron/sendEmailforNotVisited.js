@@ -8,14 +8,15 @@ const {
 const {
     dataBaseTokenEnum: { USER }, emailActionEnum: {
         WE_MISS_YOU
-    }
+    },
+    functionVariables: { DAY }
 } = require('../config');
 const { Oauth } = require('../dataBase');
 
 dayJs.extend(utc_for_dayJs);
 
 module.exports = async () => {
-    const tenDaysAbsent = dayJs.utc().subtract(10, 'day');
+    const tenDaysAbsent = dayJs.utc().subtract(10, DAY);
 
     const findUsersTenDaysAbsent = await findByItem(Oauth, { createdAt: { $lte: tenDaysAbsent } }, USER);
 

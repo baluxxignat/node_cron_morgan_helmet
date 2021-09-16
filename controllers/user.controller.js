@@ -15,6 +15,7 @@ const {
         ACCOUNT_DELETED_ADMIN
     },
     statusCodes: { CREATED, NO_CONTENT },
+    functionVariables: { USERS }
     // variables: { SEND_TO_EMAIL }
 } = require('../config');
 
@@ -75,7 +76,7 @@ module.exports = {
             let createdUser = await functionService.createItem(User, { ...req.body, password: hashedPassword });
 
             if (req.files && req.files.avatar) {
-                const sendedData = await s3Service.uploadFiles(req.files.avatar, 'users', createdUser._id);
+                const sendedData = await s3Service.uploadFiles(req.files.avatar, USERS, createdUser._id);
 
                 createdUser = await User.findByIdAndUpdate(createdUser._id,
                     { avatar: sendedData.Location },
@@ -105,7 +106,7 @@ module.exports = {
                     await s3Service.deleteFiles(avatar);
                 }
 
-                const sendedData = await s3Service.uploadFiles(req.files.avatar, 'users', user_id);
+                const sendedData = await s3Service.uploadFiles(req.files.avatar, USERS, user_id);
                 user = await User.findByIdAndUpdate(
                     user_id,
                     { ...req.body, avatar: sendedData.Location },

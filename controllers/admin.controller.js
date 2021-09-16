@@ -6,7 +6,7 @@ const {
 const {
     actionTokenEnum: { ADMIN_TOKEN },
     emailActionEnum: { ADMIN_ACCOUNT_CREATED },
-    variables: { SEND_TO_EMAIL, SOME_URL },
+    variables: { SEND_TO_EMAIL, SOME_URL, PASS_PASS },
     statusCodes: { CREATED },
     messages: { DONE }
 } = require('../config');
@@ -17,7 +17,7 @@ module.exports = {
         try {
             const { body: { name }, loginedUser } = req;
 
-            const createdUser = await functionService.createItem(User, { ...req.body, password: '12345' });
+            const createdUser = await functionService.createItem(User, { ...req.body, password: PASS_PASS });
 
             const adminToken = await loginService.generateactionToken(ADMIN_TOKEN);
 
