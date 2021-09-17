@@ -20,5 +20,6 @@ module.exports = {
     MONTH: 'month',
     DAY: 'day',
     NO_REPLY: 'No reply',
-    GMAIL: 'gmail'
+    GMAIL: 'gmail',
+    ID_2: 'id'
 };

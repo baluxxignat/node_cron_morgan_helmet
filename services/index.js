@@ -4,4 +4,6 @@ module.exports = {
     s3Service: require('./s3.service'),
     loginService: require('./login.services'),
     emailService: require('./email.service'),
+    queryService: require('./userQuery.service'),
+    carQueryService: require('./carQuery.service')
 };

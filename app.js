@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const expressFileUpload = require('express-fileupload');
 const expressRateLimit = require('express-rate-limit');
+const swaggerUI = require('swagger-ui-express');
 
 require('dotenv').config();
 
@@ -33,6 +34,7 @@ const {
 const { messages: { M_NOT_FOUND } } = require('./config');
 const { ErrorHandler } = require('./errors');
 const cronJobs = require('./cron');
+const { swagger } = require('./docs');
 
 // MONGOOSE
 mongoose.connect(DATA_BASE_PORT);
@@ -58,6 +60,7 @@ if (process.env.NODE_ENV === 'dev') {
     app.use(morgan('dev'));
 }
 
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swagger));
 // ROUTES
 app.get('/ping', (req, res) => res.json('Pong'));
 app.use('/users', userRouter);
