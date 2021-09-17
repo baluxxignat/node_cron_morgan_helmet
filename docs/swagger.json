@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "My Swagger",
-    "version": "1.0",
+    "version": "1.1",
     "description": "Hello Swager",
     "contact": {
       "email": "aleksandr.pravo@gmail.com",
@@ -30,7 +30,7 @@
           "200": {
             "description": "All users info arr",
             "schema": {
-              "$ref": "#/definitions/errorShem200"
+              "$ref": "#/definitions/userShem"
             }
           },
           "400": {
@@ -86,47 +86,10 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "User was created",
             "schema": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "description": "User ID",
-                  "example": "61407b114ec096d709a7f6eb"
-                },
-                "name": {
-                  "type": "string",
-                  "description": "User name",
-                  "example": "Ichelbek"
-                },
-                "email": {
-                  "type": "string",
-                  "description": "User email",
-                  "example": "Ichelbek@gmail.com"
-                },
-                "role": {
-                  "type": "string",
-                  "description": "User role",
-                  "example": "user"
-                },
-                "createdAt": {
-                  "type": "string",
-                  "description": "Date of creation",
-                  "example": "2021-09-16T12:50:09.500Z"
-                },
-                "updatedAt": {
-                  "description": "Date of updating",
-                  "type": "string",
-                  "example": "2021-09-16T12:50:11.264Z"
-                },
-                "avatar": {
-                  "type": "string",
-                  "description": "your photo",
-                  "example": "https://example.s3.amazonaws.com/users/61433d818d85361ccebcef52/a025af80-16ec-11ec-8dae-7d140dc7d964.png"
-                }
-              }
+              "$ref": "#/definitions/status201"
             }
           },
           "400": {
@@ -159,7 +122,7 @@
           "200": {
             "description": "Single User",
             "schema": {
-              "$ref": "#/definitions/errorShem200"
+              "$ref": "#/definitions/userShem"
             }
           },
           "400": {
@@ -225,10 +188,10 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Single User",
+          "201": {
+            "description": "Updated",
             "schema": {
-              "$ref": "#/definitions/errorShem200"
+              "$ref": "#/definitions/status201"
             }
           },
           "400": {
@@ -239,7 +202,41 @@
           }
         }
       },
-      "delete": {}
+      "delete": {
+        "tags": [
+          "users/user_id"
+        ],
+        "description": "Delete user",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "type": "string",
+            "default": "61407b114ec096d709a7f6eb",
+            "required": true,
+            "description": "you will find user for updating by ID"
+          },
+          {
+            "name": "Autorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "default": "access_token"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "400": {
+            "description": "Bad request 400",
+            "schema": {
+              "$ref": "#/definitions/errorShem400"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -258,7 +255,7 @@
         }
       }
     },
-    "errorShem200": {
+    "userShem": {
       "type": "object",
       "properties": {
         "items": {
@@ -299,6 +296,50 @@
               "example": "https://example.s3.amazonaws.com/users/61433d818d85361ccebcef52/a025af80-16ec-11ec-8dae-7d140dc7d964.png"
             }
           }
+        }
+      }
+    },
+    "status201": {
+      "type": "object",
+      "properties": {
+        "statusCodes": {
+          "example": 201,
+          "type": "number"
+        },
+        "_id": {
+          "type": "string",
+          "description": "User ID",
+          "example": "61407b114ec096d709a7f6eb"
+        },
+        "name": {
+          "type": "string",
+          "description": "User name",
+          "example": "Ichelbek"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email",
+          "example": "Ichelbek@gmail.com"
+        },
+        "role": {
+          "type": "string",
+          "description": "User role",
+          "example": "user"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Date of creation",
+          "example": "2021-09-16T12:50:09.500Z"
+        },
+        "updatedAt": {
+          "description": "Date of updating",
+          "type": "string",
+          "example": "2021-09-16T12:50:11.264Z"
+        },
+        "avatar": {
+          "type": "string",
+          "description": "your photo",
+          "example": "https://example.s3.amazonaws.com/users/61433d818d85361ccebcef52/a025af80-16ec-11ec-8dae-7d140dc7d964.png"
         }
       }
     }

@@ -34,7 +34,7 @@ const {
 const { messages: { M_NOT_FOUND } } = require('./config');
 const { ErrorHandler } = require('./errors');
 const cronJobs = require('./cron');
-const { swagger } = require('./docs');
+const swagger = require('./docs/swagger.json');
 
 // MONGOOSE
 mongoose.connect(DATA_BASE_PORT);
