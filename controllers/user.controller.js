@@ -4,7 +4,8 @@ const {
     functionService,
     passwordService,
     emailService,
-    s3Service
+    s3Service,
+    queryService
 } = require('../services');
 
 const {
@@ -14,7 +15,10 @@ const {
         ACCOUNT_DELETED_USER,
         ACCOUNT_DELETED_ADMIN
     },
-    statusCodes: { CREATED, NO_CONTENT },
+    statusCodes: {
+        CREATED,
+        NO_CONTENT
+    },
     functionVariables: { USERS }
     // variables: { SEND_TO_EMAIL }
 } = require('../config');
@@ -23,8 +27,8 @@ module.exports = {
 
     getAllUsers: async (req, res, next) => {
         try {
-            const allUsers = await functionService.getAllItems(User, req.query);
-
+            // const allUsers = await functionService.getAllItems(User, req.query);
+            const allUsers = await queryService.getAll(req.query);
             const normalizeAllUsers = allUsers.map((item) => userToNormalize(item));
 
             res.json(normalizeAllUsers);
@@ -46,7 +50,14 @@ module.exports = {
     deleteUser: async (req, res, next) => {
         try {
             const { user_id } = req.params;
-            const { user: { name, email, avatar }, userIsLogined } = req;
+            const {
+                user: {
+                    name,
+                    email,
+                    avatar
+                },
+                userIsLogined
+            } = req;
 
             if (avatar) {
                 await s3Service.deleteFiles(avatar);
@@ -69,11 +80,17 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
-            const { name, password } = req.body;
+            const {
+                name,
+                password
+            } = req.body;
 
             const hashedPassword = await passwordService.hashPassword(password);
 
-            let createdUser = await functionService.createItem(User, { ...req.body, password: hashedPassword });
+            let createdUser = await functionService.createItem(User, {
+                ...req.body,
+                password: hashedPassword
+            });
 
             if (req.files && req.files.avatar) {
                 const sendedData = await s3Service.uploadFiles(req.files.avatar, USERS, createdUser._id);
@@ -87,7 +104,8 @@ module.exports = {
 
             await emailService.sendMail(userNormalized.email, ACCOUNT_CREATED, { name });
 
-            res.status(CREATED).json(userNormalized);
+            res.status(CREATED)
+                .json(userNormalized);
         } catch (e) {
             next(e);
         }
@@ -97,7 +115,10 @@ module.exports = {
         try {
             const { user_id } = req.params;
             let { user } = req;
-            const { name, email } = req.user;
+            const {
+                name,
+                email
+            } = req.user;
 
             if (req.files && req.files.avatar) {
                 const { avatar } = req.user;
@@ -109,7 +130,10 @@ module.exports = {
                 const sendedData = await s3Service.uploadFiles(req.files.avatar, USERS, user_id);
                 user = await User.findByIdAndUpdate(
                     user_id,
-                    { ...req.body, avatar: sendedData.Location },
+                    {
+                        ...req.body,
+                        avatar: sendedData.Location
+                    },
                     { new: true }
                 );
             } else {
@@ -120,7 +144,8 @@ module.exports = {
 
             await emailService.sendMail(email, ACCOUNT_UPDATED, { name });
 
-            res.status(CREATED).json(updatedUser);
+            res.status(CREATED)
+                .json(updatedUser);
         } catch (e) {
             next(e);
         }
