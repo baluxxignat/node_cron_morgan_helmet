@@ -3,5 +3,6 @@ module.exports = {
     carController: require('./car.controller'),
     loginController: require('./login.controller'),
     passwordController: require('./password.controller'),
-    adminController: require('./admin.controller')
+    adminController: require('./admin.controller'),
+    studentController: require('./student.controller')
 };

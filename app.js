@@ -21,7 +21,8 @@ const {
 const {
     userRouter,
     carRouter,
-    loginRouter
+    loginRouter,
+    studentRouter
 } = require('./routes');
 
 const {
@@ -66,6 +67,7 @@ app.get('/ping', (req, res) => res.json('Pong'));
 app.use('/users', userRouter);
 app.use('/login', loginRouter);
 app.use('/cars', carRouter);
+app.use('/student', studentRouter);
 
 // SERVER STARTED
 app.listen(PORT, () => {
