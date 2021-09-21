@@ -1,4 +1,4 @@
-const { functionService } = require('../services');
+const { functionService, carQueryService } = require('../services');
 const { Car } = require('../dataBase');
 const { statusCodes: { CREATED, NO_CONTENT } } = require('../config');
 
@@ -6,7 +6,7 @@ module.exports = {
 
     getAllCars: async (req, res, next) => {
         try {
-            const allCars = await functionService.getAllItems(Car, req.query);
+            const allCars = await carQueryService.getAllQuery(req.query);
 
             res.json(allCars);
         } catch (e) {

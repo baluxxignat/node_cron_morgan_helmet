@@ -1,0 +1,349 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "My Swagger",
+    "version": "1.1",
+    "description": "Hello Swager",
+    "contact": {
+      "email": "aleksandr.pravo@gmail.com",
+      "name": "Oleksandr Ignatov"
+    }
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "operationId": "getAllUsers",
+        "parameters": [
+          {
+            "name": "PerPage",
+            "in": "query",
+            "default": 10,
+            "required": false,
+            "description": "How many users will be returned",
+            "type": "array"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All users info arr",
+            "schema": {
+              "$ref": "#/definitions/userShem"
+            }
+          },
+          "400": {
+            "description": "Bad request 400",
+            "schema": {
+              "$ref": "#/definitions/errorShem400"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Create User",
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "default": "John",
+            "description": "User Name"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "default": "John.dou@gmail.com",
+            "description": "User email"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "default": "Ag123456!",
+            "description": "User password"
+          },
+          {
+            "name": "role",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "default": "user",
+            "enum": [
+              "user",
+              "admin"
+            ],
+            "description": "User role"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User was created",
+            "schema": {
+              "$ref": "#/definitions/status201"
+            }
+          },
+          "400": {
+            "description": "Bad request 400",
+            "schema": {
+              "$ref": "#/definitions/errorShem400"
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "users/user_id"
+        ],
+        "description": "get Single User",
+        "operationId": "getSingleUser",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "type": "string",
+            "default": "61407b114ec096d709a7f6eb",
+            "required": true,
+            "description": "create user before take single user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Single User",
+            "schema": {
+              "$ref": "#/definitions/userShem"
+            }
+          },
+          "400": {
+            "description": "Bad request 400",
+            "schema": {
+              "$ref": "#/definitions/errorShem400"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "users/user_id"
+        ],
+        "description": "Update user",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "type": "string",
+            "default": "61407b114ec096d709a7f6eb",
+            "required": true,
+            "description": "you will find user for updating by ID"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "default": "John",
+            "description": "User Name"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "default": "John.dou@gmail.com",
+            "description": "User email"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "default": "Ag123456!",
+            "description": "User password"
+          },
+          {
+            "name": "avatar",
+            "in": "formData",
+            "type": "file",
+            "required": false,
+            "description": "User photo"
+          },
+          {
+            "name": "Autorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "default": "access_token"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Updated",
+            "schema": {
+              "$ref": "#/definitions/status201"
+            }
+          },
+          "400": {
+            "description": "Bad request 400",
+            "schema": {
+              "$ref": "#/definitions/errorShem400"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users/user_id"
+        ],
+        "description": "Delete user",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "type": "string",
+            "default": "61407b114ec096d709a7f6eb",
+            "required": true,
+            "description": "you will find user for updating by ID"
+          },
+          {
+            "name": "Autorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "default": "access_token"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "400": {
+            "description": "Bad request 400",
+            "schema": {
+              "$ref": "#/definitions/errorShem400"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "errorShem400": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Error message",
+          "example": "Email or password is wrong"
+        },
+        "statusCodes": {
+          "description": "custom code",
+          "example": 222,
+          "type": "number"
+        }
+      }
+    },
+    "userShem": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "User ID",
+              "example": "61407b114ec096d709a7f6eb"
+            },
+            "name": {
+              "type": "string",
+              "description": "User name",
+              "example": "Ichelbek"
+            },
+            "email": {
+              "type": "string",
+              "description": "User email",
+              "example": "Ichelbek@gmail.com"
+            },
+            "role": {
+              "type": "string",
+              "description": "User role",
+              "example": "user"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Date of creation",
+              "example": "2021-09-16T12:50:09.500Z"
+            },
+            "updatedAt": {
+              "description": "Date of updating",
+              "type": "string",
+              "example": "2021-09-16T12:50:11.264Z"
+            },
+            "avatar": {
+              "type": "string",
+              "description": "your photo",
+              "example": "https://example.s3.amazonaws.com/users/61433d818d85361ccebcef52/a025af80-16ec-11ec-8dae-7d140dc7d964.png"
+            }
+          }
+        }
+      }
+    },
+    "status201": {
+      "type": "object",
+      "properties": {
+        "statusCodes": {
+          "example": 201,
+          "type": "number"
+        },
+        "_id": {
+          "type": "string",
+          "description": "User ID",
+          "example": "61407b114ec096d709a7f6eb"
+        },
+        "name": {
+          "type": "string",
+          "description": "User name",
+          "example": "Ichelbek"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email",
+          "example": "Ichelbek@gmail.com"
+        },
+        "role": {
+          "type": "string",
+          "description": "User role",
+          "example": "user"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Date of creation",
+          "example": "2021-09-16T12:50:09.500Z"
+        },
+        "updatedAt": {
+          "description": "Date of updating",
+          "type": "string",
+          "example": "2021-09-16T12:50:11.264Z"
+        },
+        "avatar": {
+          "type": "string",
+          "description": "your photo",
+          "example": "https://example.s3.amazonaws.com/users/61433d818d85361ccebcef52/a025af80-16ec-11ec-8dae-7d140dc7d964.png"
+        }
+      }
+    }
+  }
+}
+
+

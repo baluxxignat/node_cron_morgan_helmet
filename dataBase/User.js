@@ -1,6 +1,12 @@
-const { Schema, model } = require('mongoose');
+const {
+    Schema,
+    model
+} = require('mongoose');
 
-const { user_roles_enum, dataBaseTokenEnum: { USER } } = require('../config');
+const {
+    user_roles_enum,
+    dataBaseTokenEnum: { USER }
+} = require('../config');
 
 const userShema = new Schema({
     name: {
@@ -23,6 +29,11 @@ const userShema = new Schema({
         // select: false
     },
 
+    age: {
+        type: Number,
+        trim: true,
+    },
+
     role: {
         type: String,
         default: user_roles_enum.USER,
@@ -37,6 +48,10 @@ const userShema = new Schema({
         type: String
     }
 
-}, { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } });
+}, {
+    timestamps: true,
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true }
+});
 
 module.exports = model(USER, userShema);

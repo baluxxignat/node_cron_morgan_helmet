@@ -1,10 +1,12 @@
-const { functionVariables: { PASS, V } } = require('../config');
+const { functionVariables: { PASS, V, ID_2 } } = require('../config');
 
 module.exports = {
     userToNormalize: (userToNormalize) => {
         const fildsToRemove = [
             PASS,
             V,
+            ID_2
+
         ];
 
         userToNormalize = userToNormalize.toObject();
